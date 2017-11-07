@@ -1,9 +1,18 @@
 [TEST_BITCOINCLI]
-TEST_IP
+IPADDER
+
 [BITCOINCLI]
-IP
+IPADDER
+
+[NEW_BITCOINCLI]
+IPADDER
+
 
 [TEST_BITCOINCLI:vars]
 ansible_ssh_user=SSH_USER
+
 [BITCOINCLI:vars]
+ansible_ssh_user=SSH_USER
+
+[NEW_BITCOINCLI:vars]
 ansible_ssh_user=SSH_USER
