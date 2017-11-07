@@ -1,0 +1,9 @@
+[TEST_BITCOINCLI]
+TEST_IP
+[BITCOINCLI]
+IP
+
+[TEST_BITCOINCLI:vars]
+ansible_ssh_user=SSH_USER
+[BITCOINCLI:vars]
+ansible_ssh_user=SSH_USER
