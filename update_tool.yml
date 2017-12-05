@@ -1,11 +1,15 @@
-- hosts: test bitcoinds
-  become: yes
+- hosts: test
   tasks:
+    - name: daemon_stop
+      shell: bitcoin-cli stop
+
     - name: update
       apt: update_cache=yes
+      become: yes
 
     - name: upgrade
       apt: upgrade=dist
+      become: yes
 
     - name: test_connection:before_reboot
       ping:
@@ -27,3 +31,6 @@
 
     - name: test_connection:after_reboot
       ping:
+
+    - name: deamon_start
+      shell: bitcoind -daemon
