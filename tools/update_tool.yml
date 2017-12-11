@@ -1,0 +1,36 @@
+- hosts: test
+  tasks:
+    - name: daemon_stop
+      shell: bitcoin-cli stop
+
+    - name: update
+      apt: update_cache=yes
+      become: yes
+
+    - name: upgrade
+      apt: upgrade=dist
+      become: yes
+
+    - name: test_connection:before_reboot
+      ping:
+
+    - name: reboot
+      become: yes
+      become_method: sudo
+      async: 1
+      poll: 0
+      ignore_errors: true
+      shell: sleep 2 && shutdown -r now
+
+    - name: wait_for_SSH_port_down
+      local_action: wait_for host={{ inventory_hostname }} port=22 state=stopped
+
+    - name: wait_for_SSH_port_up
+      wait_for: host={{ inventory_hostname }} port=22 state=started delay=30
+      delegate_to: 127.0.0.1
+
+    - name: test_connection:after_reboot
+      ping:
+
+    - name: deamon_start
+      shell: bitcoind -daemon
