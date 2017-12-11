@@ -1,7 +1,0 @@
-- hosts: test
-  tasks:
-    - name: get_state_for_bitcoin_client
-      shell: bitcoin-cli getblockchaininfo
-      register: result
-
-    - debug: var=result.stdout_lines
