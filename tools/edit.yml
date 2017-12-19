@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+    - name: edit_conf
+      lineinfile:
+        dest=./.bitcoin/bitcoin.conf
+        line={{ item }}
+      with_items:
+        - rest=1
