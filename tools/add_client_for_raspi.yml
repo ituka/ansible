@@ -1,10 +1,10 @@
-- hosts: add_new_client
+- hosts: raspy
   tasks:
     - name: mkdir_.ssh
       file: path=/home/pi/.ssh state=directory
 
     - name: send_pub_key
-      copy: src=../.ssh/id_rsa.pub dest=/home/pi/id_rsa.pub
+      copy: src=../../.ssh/id_rsa.pub dest=/home/pi/id_rsa.pub
 
     - name: registration_pub_key
       become: true
