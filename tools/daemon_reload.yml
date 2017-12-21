@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+    - name: daemon_stop
+      shell: bitcoin-cli stop
+
+    - name: wait_for_bitcoin_port_down
+      local_action: wait_for host={{ inventory_hostname }} port=8333 state=stopped
+
+    - name: wait_for_bitcoin
+      wait_for: timeout=10
+
+    - name: daemon_start
+      shell: bitcoind -daemon
