@@ -1,0 +1,14 @@
+- hosts: add_new_client
+  tasks:
+    - name: mkdir_.ssh
+      file: path=/home/yamalabo/.ssh state=directory
+
+    - name: send_pub_key
+      copy: src=../.ssh/id_rsa.pub dest=/home/yamalabo/id_rsa.pub
+
+    - name: registration_pub_key
+      become: true
+      shell: cat /home/yamalabo/id_rsa.pub >> /home/pi/.ssh/authorized_keys
+
+    - name: remove_pub_key
+      shell: rm id_rsa.pub
