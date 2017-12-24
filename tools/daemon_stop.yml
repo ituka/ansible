@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+    - name: daemon_stop
+      shell: bitcoin-cli stop
