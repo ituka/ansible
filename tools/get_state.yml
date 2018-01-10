@@ -4,4 +4,5 @@
       shell: bitcoin-cli getblockchaininfo
       register: result
 
-    - debug: var=result.stdout_lines
+    - name: bitcoin-cli getblochaininfo
+      debug: var=result.stdout_lines
