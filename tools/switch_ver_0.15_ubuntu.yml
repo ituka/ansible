@@ -1,0 +1,33 @@
+- hosts: test
+  tasks:
+    - name: stop_bitcoin
+      shell: bitcoin-cli stop
+
+    - name: remove_file
+      file:
+        path={{ item }}
+        state=absent
+      with_items:
+        - /usr/local/bin/bitcoin-cli
+        - /usr/local/bin/bitcoin-qt
+        - /usr/local/bin/bitcoin-tx
+        - /usr/local/bin/bitcoind
+        - /usr/local/bin/test_bitcoin
+        - /usr/bin/bitcoind
+        - /usr/bin/bitcoin-cli
+      become: yes
+
+    - name: remove_bitcoind
+      apt:
+        name: bitcoind
+        state: absent
+      become: yes
+
+    - name: install_bitcoind
+      apt:
+        name: bitcoind
+        update_cache: yes
+      become: yes
+
+    - name: start_bitcoin
+      shell: bitcoind -daemon -reindex-chainstate
