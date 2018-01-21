@@ -1,0 +1,18 @@
+- hosts: all
+  tasks:
+    - name: mkdir_.ssh
+      file: path=./.ssh state=directory
+
+    - name: send_pub_key
+      copy:
+        src=../../.ssh/id_rsa.pub
+        dest=./id_rsa.pub
+
+    - name: registration_pub_key
+      become: true
+      shell: cat ./id_rsa.pub >> ./.ssh/authorized_keys
+
+    - name: remove_pub_key
+      file:
+        path=./id_rsa.pub
+        state=absent
