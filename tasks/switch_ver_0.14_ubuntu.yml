@@ -1,4 +1,4 @@
-- hosts: test
+- hosts: all
   tasks:
     - name: send_file
       copy: src=../bitcoin-0.14.1 dest=./

@@ -15,3 +15,9 @@
     - name: update
       apt: update_cache=yes
       become: yes
+
+    - name: install_bitcoind
+      apt:
+        name: bitcoind
+        update_cache: yes
+      become: yes

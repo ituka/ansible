@@ -1,4 +1,4 @@
-- hosts: test
+- hosts: all
   tasks:
     - name: stop_bitcoin
       shell: bitcoin-cli stop
