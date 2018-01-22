@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+    - name: edit_conf
+      lineinfile:
+        dest=/etc/munin/munin-node.conf
+        line='allow ^157\.13\.61\.5$'
+      become: true
+
+    - name: restart_munin
+      service:
+        name: munin-node
+        state: restarted
+      become: true
