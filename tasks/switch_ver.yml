@@ -4,7 +4,6 @@
       prompt: 'please tag name'
 
   tasks:
-
     - name: remove_old_file
       file:
         path={{ item }}
