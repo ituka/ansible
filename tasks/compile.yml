@@ -1,0 +1,91 @@
+- hosts: all
+  tasks:
+    - name: install_library
+      apt:
+        name: '{{ item }}'
+        update_cache: yes
+      with_items:
+        - git
+        - build-essential
+        - libtool
+        - autotools-dev
+        - automake
+        - pkg-config
+        - libssl-dev
+        - libevent-dev
+        - bsdmainutils
+        - python3
+        - libboost-system-dev
+        - libboost-filesystem-dev
+        - libboost-chrono-dev
+        - libboost-program-options-dev
+        - libboost-test-dev
+        - libboost-thread-dev
+      become: yes
+
+    - name: clone
+      git:
+        repo: 'https://github.com/bitcoin/bitcoin'
+        dest: ./git/bitcoin
+
+    - name: ./autogen.sh
+      shell: ./autogen.sh
+      args:
+        chdir: ./git/bitcoin
+    - name: ./configure --without-gui --disable-wallet
+      shell: ./configure --without-gui --disable-wallet
+      args:
+        chdir: ./git/bitcoin
+
+    - name: compile
+      shell: make
+      args:
+        chdir: ./git/bitcoin
+
+    - name: install_bitcoind
+      shell: make install
+      args:
+        chdir: ./git/bitcoin
+      become: yes
+
+    - name: create_conf
+      file:
+        path=./.bitcoin/bitcoin.conf
+        state=touch
+
+- hosts: ubuntu
+  tasks:
+    - name: edit_conf_ubuntu
+      lineinfile:
+        dest=./.bitcoin/bitcoin.conf
+        line={{ item }}
+      with_items:
+        - deamon=1
+        - rest=1
+        - rpcallowip=157.13.61.66
+
+- hosts: raspy
+  tasks:
+    - name: edit_conf_pi
+      lineinfile:
+        dest=./.bitcoin/bitcoin.conf
+        line={{ item }}
+      with_items:
+        - deamon=1
+        - dbcache=100
+        - maxorphantx=10
+        - maxmempool=50
+        - maxorphantx=10
+        - dbcache=100
+        - maxmempool=50
+        - maxconnections=40
+        - upnp=1
+        - disablewallet=1
+        - prune=10000
+        - rest=1
+        - rpcallowip=157.13.61.66
+
+- hosts: all
+  tasks:
+    - name: deamon_start
+      shell: bitcoind -daemon
