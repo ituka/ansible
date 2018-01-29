@@ -1,0 +1,33 @@
+- hosts: all
+  tasks:
+    - name: daemon_stop
+      shell: bitcoin-cli stop
+
+    - name: pull
+      git:
+        repo: 'https://github.com/bitcoin/bitcoin'
+        dest: ./git/bitcoin
+
+    - name: autogen.sh
+      shell: ./autogen.sh
+      args:
+        chdir: ./git/bitcoin
+
+    - name: configure_without_gui&wallet
+      shell: ./configure --without-gui --disable-wallet
+      args:
+        chdir: ./git/bitcoin
+
+    - name: compile
+      shell: make
+      args:
+        chdir: ./git/bitcoin
+
+    - name: install_bitcoind
+      shell: make install
+      args:
+        chdir: ./git/bitcoin
+      become: yes
+
+    - name: bitcoind_start
+      shell: bitcoind -daemon
