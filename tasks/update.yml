@@ -1,5 +1,13 @@
 - hosts: all
   tasks:
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: T7Z9VQQU9/B91ET4USH/RRweKjVUnxdiVWZFiBCqnCad
+        msg: 'start update'
+        link_names: 1
+
     - name: daemon_stop
       shell: bitcoin-cli stop
 
@@ -31,3 +39,11 @@
 
     - name: bitcoind_start
       shell: bitcoind -daemon
+
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: T7Z9VQQU9/B91ET4USH/RRweKjVUnxdiVWZFiBCqnCad
+        msg: 'completed'
+        link_names: 1

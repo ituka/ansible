@@ -1,5 +1,13 @@
 - hosts: all
   tasks:
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: T7Z9VQQU9/B91ET4USH/RRweKjVUnxdiVWZFiBCqnCad
+        msg: 'compile start'
+        link_names: 1
+
     - name: install_library
       apt:
         name: '{{ item }}'
@@ -89,3 +97,11 @@
   tasks:
     - name: deamon_start
       shell: bitcoind -daemon
+
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: T7Z9VQQU9/B91ET4USH/RRweKjVUnxdiVWZFiBCqnCad
+        msg: 'completed'
+        link_names: 1
