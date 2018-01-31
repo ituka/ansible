@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+    - name: get_block_count
+      shell: bitcoin-cli getblockcount
+      register: result
+
+    - name: blockcount
+      debug: var=result.stdout_lines
