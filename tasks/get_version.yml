@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+    - name: get_version
+      shell: bitcoin-cli getnetworkinfo | grep version
+      register: result
+
+    - name: versions
+      debug: var=result.stdout_lines
