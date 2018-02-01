@@ -6,6 +6,20 @@
         line='allow ^157\.13\.61\.5$'
       become: true
 
+    - name: send_cpu_temp
+      copy:
+        src: ./sends/cpu_temp
+        dest: /usr/share/munin/plugins
+        mode: 0755
+      become: true
+
+    - name: create_link
+      file:
+        src: /usr/share/munin/plugins/cpu_temp
+        dest:  /etc/munin/plugins/cpu_temp
+        state: link
+      become: true
+
     - name: restart_munin
       service:
         name: munin-node
