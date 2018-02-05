@@ -1,0 +1,28 @@
+#!/bin/sh
+
+. $MUNIN_LIBDIR/plugins/plugin.sh
+
+if [ "$1" = "autoconf" ]; then
+    if [ -r /sys/class/thermal/thermal_zone0/temp ];then
+        echo yes
+        exit 0
+    else
+        echo "no (missing /sys/class/thermal/thermal_zone0/temp)"
+        exit 0
+    fi
+fi
+
+
+if [ "$1" = "config" ]; then
+    echo graph_title CPU core temperature
+    echo graph_args --base 1000  -l 0
+    echo graph_info CPU core temperature
+    echo graph_category system
+
+    echo temp0.label Core
+    echo temp0.cdef temp0,1000,/
+
+    exit 0;
+fi
+
+echo temp0.value `cat /sys/class/thermal/thermal_zone0/temp`
