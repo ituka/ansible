@@ -11,9 +11,11 @@
         token: XXXX
         msg: 'start switch version'
         link_names: 1
+      ignore_errors: True
 
     - name: daemon_stop
       shell: bitcoin-cli stop
+      ignore_errors: True
 
     - name: remove_old_file
       file:
@@ -69,3 +71,4 @@
         token: XXXX
         msg: 'end'
         link_names: 1
+      ignore_errors: True

@@ -4,12 +4,14 @@
       local_action:
         module: slack
         domain: yamalabosotsuken2017.slack.com
-        token: XXXX
+        token: T7Z9VQQU9/B91RBPCE8/P39nH6CwAnmTHZWLyBKOTyVw
         msg: 'start update'
         link_names: 1
+      ignore_errors: True
 
     - name: daemon_stop
       shell: bitcoin-cli stop
+      ignore_errors: True
 
     - name: pull
       git:
@@ -24,7 +26,7 @@
     - name: configure_without_gui&wallet
       shell: ./configure --without-gui --disable-wallet
       args:
-        chdir: ./git/bitcoin
+        chdir: ./git/bitcoinignore_errors: True
 
     - name: compile
       shell: make
@@ -44,6 +46,7 @@
       local_action:
         module: slack
         domain: yamalabosotsuken2017.slack.com
-        token: XXXX
+        token: T7Z9VQQU9/B91RBPCE8/P39nH6CwAnmTHZWLyBKOTyVw
         msg: 'end'
         link_names: 1
+      ignore_errors: True

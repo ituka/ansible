@@ -2,6 +2,7 @@
   tasks:
     - name: daemon_stop
       shell: bitcoin-cli stop
+      ignore_errors: True
 
     - name: update
       apt: update_cache=yes
