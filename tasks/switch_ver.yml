@@ -4,6 +4,14 @@
       prompt: 'please tag name'
 
   tasks:
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: XXXX
+        msg: 'start switch version'
+        link_names: 1
+
     - name: daemon_stop
       shell: bitcoin-cli stop
 
@@ -15,10 +23,14 @@
         - /usr/local/bin/bench_bitcoin 
         - /usr/local/bin/bitcoin-cli
         - /usr/local/bin/bitcoind
-        - /usr/local/bin/bi
-        - ./git/bitcoin
-        - ./.bitcoin
+        - /usr/local/bin/bitcoin-tx
+        - /usr/local/bin/test_bitcoin
       become: yes
+
+    - name: remove_old_dir
+      file:
+        path=./git/bitcoin
+        state=absent
 
     - name: clone_{{ tag_name }}
       git:
@@ -49,3 +61,11 @@
 
     - name: bitcoind_start
       shell: bitcoind -daemon
+
+    - name: post_slack
+      local_action:
+        module: slack
+        domain: yamalabosotsuken2017.slack.com
+        token: XXXX
+        msg: 'end'
+        link_names: 1
